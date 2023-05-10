@@ -1,0 +1,5 @@
+ib:
+  inputs: weather/Views/StoryBoards
+  outputs:
+    - templateName: scenes-swift5
+      output: weather/Resources/Storyboards.swift
