@@ -14,7 +14,7 @@ struct App {
 
 struct Server {
     static var baseURL: String {
-        "https://api.openweathermap.org/data/2.5/forecast/"
+        "https://api.openweathermap.org"
     }
 }
 
