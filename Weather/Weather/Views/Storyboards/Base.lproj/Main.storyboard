@@ -101,6 +101,9 @@
                                         </constraints>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" image="location.fill" catalog="system"/>
+                                        <connections>
+                                            <action selector="currentLocation:" destination="Oxq-m9-n0h" eventType="touchUpInside" id="3f4-Jo-IlK"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="esg-pe-WS7">
                                         <rect key="frame" x="333" y="0.0" width="40" height="80"/>
@@ -109,6 +112,9 @@
                                         </constraints>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" image="mappin" catalog="system"/>
+                                        <connections>
+                                            <action selector="setLocation:" destination="Oxq-m9-n0h" eventType="touchUpInside" id="ywm-lY-Lg3"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>
@@ -132,6 +138,9 @@
                             <constraint firstItem="5Bw-RS-UvG" firstAttribute="top" secondItem="cKW-g7-cDh" secondAttribute="bottom" id="yfo-3T-VxW"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="searchBar" destination="Wvq-cR-Vgr" id="ZWc-bA-CG2"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="86u-gH-VCX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

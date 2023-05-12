@@ -28,7 +28,6 @@ class ForecastViewModel: ForecastViewModelProtocol {
         self.provider = provider
     }
     
-    
     var state = PassthroughSubject<ForecastViewModel.ForecastPageState, Never>()
     var forecast = CurrentValueSubject<ForecastResponse?, Never>(nil)
     private var bindings = Set<AnyCancellable>()

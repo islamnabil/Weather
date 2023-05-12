@@ -9,16 +9,30 @@ import UIKit
 
 class HomeVC: UIViewController {
 
+    // MARK: - Properties
+    private var lastKnownLocation: LastKnownLocation?
+    
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        LocationManager.shared.setupLocation()
+        LocationManager.shared.delegate = self
     }
     
 
     @IBAction func forecast(_ sender: Any) {
-        let vc = ForecastVC.create()
-        navigationController?.pushViewController(vc, animated: true)
+        if let lastKnownLocation {
+            let vc = ForecastVC.create(location: lastKnownLocation, viewModel: ForecastViewModel(provider: WeatherAPI()))
+            navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    
+}
+
+// MARK: - LocationManagerProtocol
+extension HomeVC: LocationManagerProtocol {
+    func locationFetched(location: LastKnownLocation) {
+        lastKnownLocation  = location
     }
     
 }
