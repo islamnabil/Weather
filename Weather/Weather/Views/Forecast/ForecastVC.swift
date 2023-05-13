@@ -23,10 +23,12 @@ class ForecastVC: UIViewController {
             forecastTableView.reloadData()
         }
     }
+    private var timer = Timer()
     
     //MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        searchBar.delegate = self
         setupForecastTable()
         setupBindings()
         if let location {
@@ -75,6 +77,24 @@ class ForecastVC: UIViewController {
 
 }
 
+// MARK: - UISearchBarDelegate
+extension ForecastVC: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        timer.invalidate()
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.output), userInfo: searchText, repeats: false)
+    }
+    
+    @objc func output(){
+        if let query = searchBar.text, !query.isEmpty {
+            viewModel?.geocodeByName(cityName: query)
+        }
+        timer.invalidate()
+    }
+
+}
+
+
+// MARK: - UITableViewDelegate
 extension ForecastVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         forecastList.count

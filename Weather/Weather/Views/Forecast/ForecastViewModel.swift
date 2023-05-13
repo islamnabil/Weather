@@ -12,6 +12,8 @@ protocol ForecastViewModelProtocol: AnyObject {
     var state: PassthroughSubject<ForecastViewModel.ForecastPageState, Never> { get }
     var forecast: CurrentValueSubject<ForecastResponse?, Never> { get }
     func fetchForecast(lat: Double, lon: Double)
+    func geocodeByName(cityName: String)
+    func geocodeByZip(zip: String)
 }
 
 
@@ -50,6 +52,34 @@ class ForecastViewModel: ForecastViewModelProtocol {
                 if let data = $0 {
                     self?.forecast.value = data
                     self?.state.send(.successed)
+                }
+            }
+            .store(in: &bindings)
+    }
+    
+    
+    func geocodeByName(cityName: String) {
+        provider?.nameGeocoding(cityName: cityName)
+            .receive(on: RunLoop.main)
+            .sink(receiveCompletion: requestCompletionHandler) { [weak self] in
+                if let data = $0?.first, let lat = data.lat, let lon = data.lon
+                {
+                    self?.fetchForecast(lat: lat , lon: lon)
+                } else {
+                    self?.geocodeByZip(zip: cityName)
+                }
+            }
+            .store(in: &bindings)
+    }
+    
+    
+    func geocodeByZip(zip: String) {
+        provider?.zipGeocoding(zip: zip)
+            .receive(on: RunLoop.main)
+            .sink(receiveCompletion: requestCompletionHandler) { [weak self] in
+                if let data = $0, let lat = data.lat, let lon = data.lon
+                {
+                    self?.fetchForecast(lat: lat , lon: lon)
                 }
             }
             .store(in: &bindings)
