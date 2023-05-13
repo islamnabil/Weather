@@ -28,6 +28,7 @@ class ForecastVC: UIViewController {
     //MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = "Forecast"
         searchBar.delegate = self
         setupForecastTable()
         setupBindings()
@@ -53,7 +54,32 @@ class ForecastVC: UIViewController {
     
     
     @IBAction func setLocation(_ sender: Any) {
+        let alertController = UIAlertController(title: "Add Location", message: "", preferredStyle: .alert)
         
+        alertController.addTextField { (textField : UITextField!) -> Void in
+            textField.placeholder = "Lat"
+        }
+        
+        alertController.addTextField { (textField : UITextField!) -> Void in
+            textField.placeholder = "Lon"
+        }
+        
+        let saveAction = UIAlertAction(title: "Save", style: .default, handler: { alert -> Void in
+            let latTextField = alertController.textFields![0] as UITextField
+            let lonTextField = alertController.textFields![1] as UITextField
+            
+            if let lat = Double(latTextField.text ?? ""), let lon = Double(lonTextField.text ?? "") {
+                self.viewModel?.fetchForecast(lat: lat, lon: lon)
+            }
+        })
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: { (action : UIAlertAction!) -> Void in })
+        
+        
+        alertController.addAction(saveAction)
+        alertController.addAction(cancelAction)
+        
+        self.present(alertController, animated: true, completion: nil)
     }
     
     
