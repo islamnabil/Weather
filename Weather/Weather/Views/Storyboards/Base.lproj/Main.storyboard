@@ -94,19 +94,8 @@
                                             <outlet property="delegate" destination="Oxq-m9-n0h" id="1nY-XL-93b"/>
                                         </connections>
                                     </searchBar>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="89C-jW-60Z">
-                                        <rect key="frame" x="283" y="0.0" width="40" height="80"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="40" id="jMd-fU-dOD"/>
-                                        </constraints>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" image="location.fill" catalog="system"/>
-                                        <connections>
-                                            <action selector="currentLocation:" destination="Oxq-m9-n0h" eventType="touchUpInside" id="3f4-Jo-IlK"/>
-                                        </connections>
-                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="esg-pe-WS7">
-                                        <rect key="frame" x="333" y="0.0" width="40" height="80"/>
+                                        <rect key="frame" x="283" y="0.0" width="40" height="80"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="40" id="0XB-ev-pXS"/>
                                         </constraints>
@@ -114,6 +103,17 @@
                                         <buttonConfiguration key="configuration" style="plain" image="mappin" catalog="system"/>
                                         <connections>
                                             <action selector="setLocation:" destination="Oxq-m9-n0h" eventType="touchUpInside" id="ywm-lY-Lg3"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="89C-jW-60Z">
+                                        <rect key="frame" x="333" y="0.0" width="40" height="80"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="40" id="jMd-fU-dOD"/>
+                                        </constraints>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" image="location.fill" catalog="system"/>
+                                        <connections>
+                                            <action selector="currentLocation:" destination="Oxq-m9-n0h" eventType="touchUpInside" id="3f4-Jo-IlK"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -164,6 +164,84 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Bix-9q-DjB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="133.58778625954199" y="4.9295774647887329"/>
+        </scene>
+        <!--WeatherVC-->
+        <scene sceneID="glp-gF-cJq">
+            <objects>
+                <viewController storyboardIdentifier="WeatherVC" id="j6k-NY-DMp" customClass="WeatherVC" customModule="Weather" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="N5s-JF-mHb">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Nia-5I-zmW">
+                                <rect key="frame" x="10" y="59" width="373" height="80"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aiT-79-bni">
+                                        <rect key="frame" x="0.0" y="0.0" width="20" height="80"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="20" id="b6P-Od-HAo"/>
+                                        </constraints>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="C"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m8b-AH-xOG">
+                                        <rect key="frame" x="30" y="0.0" width="20" height="80"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="20" id="Mhx-C7-frN"/>
+                                        </constraints>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="F"/>
+                                    </button>
+                                    <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Enter city or zip code" translatesAutoresizingMaskIntoConstraints="NO" id="sfa-i1-Hin">
+                                        <rect key="frame" x="60" y="0.0" width="233" height="80"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="j6k-NY-DMp" id="umL-aR-sXF"/>
+                                        </connections>
+                                    </searchBar>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vEb-m1-ohg">
+                                        <rect key="frame" x="303" y="0.0" width="30" height="80"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="30" id="gh9-ni-s7U"/>
+                                        </constraints>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" image="mappin" catalog="system"/>
+                                        <connections>
+                                            <action selector="setLocation:" destination="j6k-NY-DMp" eventType="touchUpInside" id="pwa-kP-5Qf"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="URX-B8-T6C">
+                                        <rect key="frame" x="343" y="0.0" width="30" height="80"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="30" id="vDh-SH-4K9"/>
+                                        </constraints>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" image="location.fill" catalog="system"/>
+                                        <connections>
+                                            <action selector="currentLocation:" destination="j6k-NY-DMp" eventType="touchUpInside" id="wmB-lc-mtB"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="80" id="eCY-vB-L1m"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="HCs-o0-9w2"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Nia-5I-zmW" firstAttribute="leading" secondItem="HCs-o0-9w2" secondAttribute="leading" constant="10" id="FVd-SL-Bq4"/>
+                            <constraint firstItem="Nia-5I-zmW" firstAttribute="top" secondItem="HCs-o0-9w2" secondAttribute="top" id="fTc-R0-nmL"/>
+                            <constraint firstItem="HCs-o0-9w2" firstAttribute="trailing" secondItem="Nia-5I-zmW" secondAttribute="trailing" constant="10" id="uMh-3g-qUP"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="searchBar" destination="sfa-i1-Hin" id="WWw-AC-n8K"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="EvN-jx-658" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2531" y="5"/>
         </scene>
     </scenes>
     <resources>

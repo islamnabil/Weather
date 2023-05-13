@@ -20,7 +20,7 @@ struct ForecastResponse: Codable {
 struct Forecast: Codable {
     let dt: Int?
     let main: MainWather?
-    let weather: [Weather]?
+    let weather: [ForecastWeather]?
     let clouds: Clouds?
     let wind: Wind?
     let visibility: Int?
@@ -67,7 +67,7 @@ struct MainWather: Codable {
     }
 }
 
-struct Weather: Codable {
+struct ForecastWeather: Codable {
     let id: Int?
     let main: String?
     let weatherDescription: String?
