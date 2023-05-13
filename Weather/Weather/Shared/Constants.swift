@@ -16,6 +16,15 @@ struct Server {
     static var baseURL: String {
         "https://api.openweathermap.org"
     }
+    
+    static var baseDataURL: String {
+        "/data/2.5/"
+    }
+    
+    static var baseGeoURL: String {
+        "/geo/1.0/"
+    }
+  
 }
 
 struct HTTPCode {
