@@ -139,6 +139,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="forecastTableView" destination="5Bw-RS-UvG" id="5WJ-7F-rqi"/>
                         <outlet property="searchBar" destination="Wvq-cR-Vgr" id="ZWc-bA-CG2"/>
                     </connections>
                 </viewController>
