@@ -12,12 +12,14 @@ enum WeatherNetworking {
     case forecast(lat: Double, lon: Double)
     case geocodingByName(cityName: String)
     case geocofingByZipCode(zip: String)
+    case currentWeather(lat: Double, lon: Double)
 }
 
 private enum WeatherEndpoints: String {
-    case forecast = "/data/2.5/forecast"
-    case geoName = "/geo/1.0/direct"
-    case geoZip = "/geo/1.0/zip"
+    case forecast = "/forecast"
+    case geoName = "/direct"
+    case geoZip = "/zip"
+    case currentWeather = "/weather"
     
     var description: String {
         return self.rawValue
@@ -34,17 +36,19 @@ extension WeatherNetworking: TargetType {
     var path: String {
         switch self {
         case .forecast:
-            return WeatherEndpoints.forecast.description
+            return Server.baseDataURL + WeatherEndpoints.forecast.description
         case .geocodingByName:
-            return WeatherEndpoints.geoName.description
+            return Server.baseGeoURL + WeatherEndpoints.geoName.description
         case .geocofingByZipCode:
-            return WeatherEndpoints.geoZip.description
+            return Server.baseGeoURL + WeatherEndpoints.geoZip.description
+        case .currentWeather:
+            return Server.baseDataURL + WeatherEndpoints.currentWeather.description
         }
     }
     
     var method: HTTPMethod {
         switch self {
-        case .forecast, .geocodingByName, .geocofingByZipCode:
+        case .forecast, .geocodingByName, .geocofingByZipCode, .currentWeather:
             return .get
         }
     }
@@ -71,6 +75,15 @@ extension WeatherNetworking: TargetType {
         case .geocofingByZipCode(zip: let zip):
             let params = [
                 "zip": zip,
+                "appid": App.WEATHER_KEY
+            ] as [String : Any]
+            
+            return .requestParameters(parameters: params, encoding: URLEncoding.default)
+            
+        case let .currentWeather(lat, lon):
+            let params = [
+                "lat": lat,
+                "lon": lon,
                 "appid": App.WEATHER_KEY
             ] as [String : Any]
             
