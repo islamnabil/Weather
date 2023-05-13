@@ -15,7 +15,9 @@ internal enum StoryboardScene {
   internal enum Main: StoryboardType {
     internal static let storyboardName = "Main"
 
-    internal static let initialScene = InitialSceneType<HomeVC>(storyboard: Self.self)
+    internal static let initialScene = InitialSceneType<UIKit.UINavigationController>(storyboard: Self.self)
+
+    internal static let currentWeatherVC = SceneType<CurrentWeatherVC>(storyboard: Self.self, identifier: "CurrentWeatherVC")
 
     internal static let forecastVC = SceneType<ForecastVC>(storyboard: Self.self, identifier: "ForecastVC")
 

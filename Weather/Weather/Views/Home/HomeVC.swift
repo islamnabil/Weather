@@ -27,6 +27,14 @@ class HomeVC: UIViewController {
         }
     }
     
+    
+    @IBAction func currentWeather(_ sender: Any) {
+        if let lastKnownLocation {
+            let vc = CurrentWeatherVC.create(location: lastKnownLocation, viewModel: CurrentWeatherViewModel(provider: WeatherAPI()))
+            navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    
 }
 
 // MARK: - LocationManagerProtocol
