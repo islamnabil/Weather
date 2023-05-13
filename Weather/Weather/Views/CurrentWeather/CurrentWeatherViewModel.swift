@@ -11,7 +11,7 @@ import Combine
 protocol CurrentWeatherViewModelProtocol: AnyObject {
     var state: PassthroughSubject<CurrentWeatherViewModel.CurrentWeatherPageState, Never> { get }
     var weather: CurrentValueSubject<Weather?, Never> { get }
-    func fetchCurrentWeather(lat: Double, lon: Double)
+    func fetchCurrentWeather(lat: Double, lon: Double, unit: APITemp)
     func geocodeByName(cityName: String)
     func geocodeByZip(zip: String)
 }
@@ -32,6 +32,7 @@ class CurrentWeatherViewModel: CurrentWeatherViewModelProtocol {
     
     var state = PassthroughSubject<CurrentWeatherViewModel.CurrentWeatherPageState, Never>()
     var weather = CurrentValueSubject<Weather?, Never>(nil)
+    private var selectedUnit: APITemp = .Fahrenheit
     private var bindings = Set<AnyCancellable>()
     private var provider: WeatherAPI?
     lazy private var requestCompletionHandler: (Subscribers.Completion<ErrorResponse>) -> Void = { completion in
@@ -45,8 +46,9 @@ class CurrentWeatherViewModel: CurrentWeatherViewModelProtocol {
     }
     
     // MARK: - Public Methods
-    func fetchCurrentWeather(lat: Double, lon: Double) {
-        provider?.currentWeather(lat: lat, lon: lon)
+    func fetchCurrentWeather(lat: Double, lon: Double, unit: APITemp) {
+        selectedUnit = unit
+        provider?.currentWeather(lat: lat, lon: lon, unit: selectedUnit)
             .receive(on: RunLoop.main)
             .sink(receiveCompletion: requestCompletionHandler) { [weak self] in
                 if let data = $0 {
@@ -64,7 +66,7 @@ class CurrentWeatherViewModel: CurrentWeatherViewModelProtocol {
             .sink(receiveCompletion: requestCompletionHandler) { [weak self] in
                 if let data = $0?.first, let lat = data.lat, let lon = data.lon
                 {
-                    self?.fetchCurrentWeather(lat: lat , lon: lon)
+                    self?.fetchCurrentWeather(lat: lat , lon: lon, unit: self?.selectedUnit ?? .Fahrenheit)
                 } else {
                     self?.geocodeByZip(zip: cityName)
                 }
@@ -79,7 +81,7 @@ class CurrentWeatherViewModel: CurrentWeatherViewModelProtocol {
             .sink(receiveCompletion: requestCompletionHandler) { [weak self] in
                 if let data = $0, let lat = data.lat, let lon = data.lon
                 {
-                    self?.fetchCurrentWeather(lat: lat , lon: lon)
+                    self?.fetchCurrentWeather(lat: lat , lon: lon, unit: self?.selectedUnit ?? .Fahrenheit)
                 }
             }
             .store(in: &bindings)

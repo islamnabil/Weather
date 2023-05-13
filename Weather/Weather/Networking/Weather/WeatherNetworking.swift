@@ -8,18 +8,23 @@
 import Foundation
 import Alamofire
 
+enum APITemp: String {
+    case Celsius = "metric"
+    case Fahrenheit = "imperial"
+}
+
 enum WeatherNetworking {
     case forecast(lat: Double, lon: Double)
     case geocodingByName(cityName: String)
     case geocofingByZipCode(zip: String)
-    case currentWeather(lat: Double, lon: Double)
+    case currentWeather(lat: Double, lon: Double, unit: APITemp)
 }
 
 private enum WeatherEndpoints: String {
-    case forecast = "/forecast"
-    case geoName = "/direct"
-    case geoZip = "/zip"
-    case currentWeather = "/weather"
+    case forecast = "forecast"
+    case geoName = "direct"
+    case geoZip = "zip"
+    case currentWeather = "weather"
     
     var description: String {
         return self.rawValue
@@ -59,7 +64,8 @@ extension WeatherNetworking: TargetType {
             let params = [
                 "lat": lat,
                 "lon": lon,
-                "appid": App.WEATHER_KEY
+                "appid": App.WEATHER_KEY,
+                "units": "imperial"
             ] as [String : Any]
             
             return .requestParameters(parameters: params, encoding: URLEncoding.default)
@@ -80,11 +86,12 @@ extension WeatherNetworking: TargetType {
             
             return .requestParameters(parameters: params, encoding: URLEncoding.default)
             
-        case let .currentWeather(lat, lon):
+        case let .currentWeather(lat, lon, temp):
             let params = [
                 "lat": lat,
                 "lon": lon,
-                "appid": App.WEATHER_KEY
+                "appid": App.WEATHER_KEY,
+                "units": temp.rawValue
             ] as [String : Any]
             
             return .requestParameters(parameters: params, encoding: URLEncoding.default)

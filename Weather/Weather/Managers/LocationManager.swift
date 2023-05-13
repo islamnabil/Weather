@@ -53,6 +53,12 @@ extension LocationManager: CLLocationManagerDelegate {
 
 
 public struct LastKnownLocation: Codable {
+    internal init(name: String, lat: Double, long: Double) {
+        self.name = name
+        self.lat = lat
+        self.long = long
+    }
+    
     public var name: String
     public var lat: Double
     public var long: Double

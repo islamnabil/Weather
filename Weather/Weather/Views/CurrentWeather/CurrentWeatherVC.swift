@@ -35,13 +35,18 @@ class CurrentWeatherVC: UIViewController {
     private var viewModel: CurrentWeatherViewModelProtocol?
     private var bindings = Set<AnyCancellable>()
     private var location: LastKnownLocation?
+    private var currenuLocation: LastKnownLocation?
     private var currentWeather: Weather? {
         didSet {
             updateViewsData()
         }
     }
     private var timer = Timer()
-    private var currentUnit: TempUnit = .Fahrenheit
+    private var currentUnit: TempUnit = .Fahrenheit {
+        didSet {
+            viewModel?.fetchCurrentWeather(lat: location?.lat ?? 0.0, lon: location?.long ?? 0.0, unit: currentUnit == .Celsius ? .Celsius : .Fahrenheit)
+        }
+    }
     
     //MARK: - View Life Cycle
     override func viewDidLoad() {
@@ -50,7 +55,7 @@ class CurrentWeatherVC: UIViewController {
         searchBar.delegate = self
         setupBindings()
         if let location {
-            viewModel?.fetchCurrentWeather(lat: location.lat, lon: location.long)
+            viewModel?.fetchCurrentWeather(lat: location.lat, lon: location.long, unit: .Fahrenheit)
         }
     }
 
@@ -58,14 +63,15 @@ class CurrentWeatherVC: UIViewController {
     class func create(location: LastKnownLocation, viewModel: CurrentWeatherViewModelProtocol) -> CurrentWeatherVC {
         let vc = StoryboardScene.Main.currentWeatherVC.instantiate()
         vc.location = location
+        vc.currenuLocation = location
         vc.viewModel = viewModel
         return vc
     }
     
     //MARK: - IBActions
     @IBAction func currentLocation(_ sender: Any) {
-        if let location {
-            viewModel?.fetchCurrentWeather(lat: location.lat, lon: location.long)
+        if let currenuLocation {
+            viewModel?.fetchCurrentWeather(lat: currenuLocation.lat, lon: currenuLocation.long, unit: currentUnit == .Celsius ? .Celsius : .Fahrenheit)
         }
     }
     
@@ -85,7 +91,7 @@ class CurrentWeatherVC: UIViewController {
             let lonTextField = alertController.textFields![1] as UITextField
             
             if let lat = Double(latTextField.text ?? ""), let lon = Double(lonTextField.text ?? "") {
-                self.viewModel?.fetchCurrentWeather(lat: lat, lon: lon)
+                self.viewModel?.fetchCurrentWeather(lat: lat, lon: lon, unit: self.currentUnit == .Celsius ? .Celsius : .Fahrenheit)
             }
         })
         
@@ -106,6 +112,13 @@ class CurrentWeatherVC: UIViewController {
     
     @IBAction func celsius(_ sender: Any) {
         currentUnit  = .Celsius
+    }
+    
+    @IBAction func forecast(_ sender: Any) {
+        if let location {
+            let vc = ForecastVC.create(location: location, viewModel: ForecastViewModel(provider: WeatherAPI()))
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     // MARK: - Private Methods
@@ -132,6 +145,7 @@ class CurrentWeatherVC: UIViewController {
         humidityLabel.text = "\(currentWeather?.main.humidity ?? 0)%"
         visibiltyLabel.text = "\(currentWeather?.visibility ?? 0) m"
         windSpeedLabel.text = "\(currentWeather?.wind.speed ?? 0.0)"
+        location = LastKnownLocation(name: currentWeather?.name ?? "", lat: currentWeather?.coordinate.latitude ?? 0.0, long: currentWeather?.coordinate.longitude ?? 0.0)
     }
 }
 
