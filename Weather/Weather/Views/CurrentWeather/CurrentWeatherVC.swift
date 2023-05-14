@@ -12,6 +12,8 @@ class CurrentWeatherVC: UIViewController {
 
     //MARK: - IBOutlets
     @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var historyBaseView: UIView!
+    @IBOutlet weak var searchHistoryTableView: UITableView!
     
     @IBOutlet weak var locationNameLabel: UILabel!
     // Weather IBOutlets
@@ -51,8 +53,9 @@ class CurrentWeatherVC: UIViewController {
     //MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Forecast"
+        title = "Current Weather"
         searchBar.delegate = self
+        setupSearchHistoryTable()
         setupBindings()
         if let location {
             viewModel?.fetchCurrentWeather(lat: location.lat, lon: location.long, unit: .Fahrenheit)
@@ -147,11 +150,22 @@ class CurrentWeatherVC: UIViewController {
         windSpeedLabel.text = "\(currentWeather?.wind.speed ?? 0.0)"
         location = LastKnownLocation(name: currentWeather?.name ?? "", lat: currentWeather?.coordinate.latitude ?? 0.0, long: currentWeather?.coordinate.longitude ?? 0.0)
     }
+    
+    private func setupSearchHistoryTable() {
+        searchHistoryTableView.register(UINib(nibName: "\(SearchTableCell.self)", bundle: nil), forCellReuseIdentifier: "\(SearchTableCell.self)")
+        searchHistoryTableView.delegate = self
+        searchHistoryTableView.dataSource = self
+    }
 }
 
 // MARK: - UISearchBarDelegate
 extension CurrentWeatherVC: UISearchBarDelegate {
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        historyBaseView.isHidden = false
+    }
+    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        historyBaseView.isHidden = true
         timer.invalidate()
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.output), userInfo: searchText, repeats: false)
     }
@@ -159,8 +173,32 @@ extension CurrentWeatherVC: UISearchBarDelegate {
     @objc func output(){
         if let query = searchBar.text, !query.isEmpty {
             viewModel?.geocodeByName(cityName: query)
+            UserDefaultsManager.shared.addNewCurrentWeatherSearch(query: query)
         }
         timer.invalidate()
+    }
+    
+}
+
+// MARK: - UITableViewDelegate
+extension CurrentWeatherVC: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return UserDefaultsManager.shared.currentWaatherSearches.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(SearchTableCell.self)", for: indexPath) as? SearchTableCell else { return UITableViewCell() }
+        let result = UserDefaultsManager.shared.currentWaatherSearches[indexPath.row]
+        cell.config(query: result)
+        cell.selectionStyle = .none
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if tableView == searchHistoryTableView {
+            historyBaseView.isHidden = true
+            viewModel?.geocodeByName(cityName: UserDefaultsManager.shared.currentWaatherSearches[indexPath.row])
+        }
     }
     
 }

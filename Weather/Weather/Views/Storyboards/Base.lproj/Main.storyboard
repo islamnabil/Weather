@@ -458,29 +458,51 @@
                                     </button>
                                 </subviews>
                             </stackView>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jNw-u9-Ka2">
+                                <rect key="frame" x="0.0" y="139" width="393" height="200"/>
+                                <subviews>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="veD-oz-UWn">
+                                        <rect key="frame" x="5" y="5" width="383" height="190"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    </tableView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="veD-oz-UWn" firstAttribute="top" secondItem="jNw-u9-Ka2" secondAttribute="top" constant="5" id="Rf4-UT-VYk"/>
+                                    <constraint firstAttribute="trailing" secondItem="veD-oz-UWn" secondAttribute="trailing" constant="5" id="mUl-Tx-bos"/>
+                                    <constraint firstItem="veD-oz-UWn" firstAttribute="leading" secondItem="jNw-u9-Ka2" secondAttribute="leading" constant="5" id="nBE-5I-8j4"/>
+                                    <constraint firstAttribute="bottom" secondItem="veD-oz-UWn" secondAttribute="bottom" constant="5" id="rIc-Xg-PZL"/>
+                                    <constraint firstAttribute="height" constant="200" id="uQ6-ZP-ZYQ"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="HCs-o0-9w2"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="jNw-u9-Ka2" firstAttribute="leading" secondItem="HCs-o0-9w2" secondAttribute="leading" id="1SR-2c-g56"/>
                             <constraint firstItem="Nia-5I-zmW" firstAttribute="leading" secondItem="HCs-o0-9w2" secondAttribute="leading" constant="10" id="FVd-SL-Bq4"/>
                             <constraint firstItem="HCs-o0-9w2" firstAttribute="trailing" secondItem="71D-iz-Rd3" secondAttribute="trailing" constant="10" id="bgD-Zb-wEM"/>
+                            <constraint firstItem="jNw-u9-Ka2" firstAttribute="trailing" secondItem="HCs-o0-9w2" secondAttribute="trailing" id="eYC-oj-Eaw"/>
                             <constraint firstItem="Nia-5I-zmW" firstAttribute="top" secondItem="HCs-o0-9w2" secondAttribute="top" id="fTc-R0-nmL"/>
                             <constraint firstItem="HCs-o0-9w2" firstAttribute="bottom" secondItem="71D-iz-Rd3" secondAttribute="bottom" constant="10" id="j0L-mV-C8r"/>
                             <constraint firstItem="71D-iz-Rd3" firstAttribute="top" secondItem="Nia-5I-zmW" secondAttribute="bottom" constant="10" id="pSn-0m-nCa"/>
                             <constraint firstItem="71D-iz-Rd3" firstAttribute="leading" secondItem="HCs-o0-9w2" secondAttribute="leading" constant="10" id="tHH-aG-i4M"/>
                             <constraint firstItem="HCs-o0-9w2" firstAttribute="trailing" secondItem="Nia-5I-zmW" secondAttribute="trailing" constant="10" id="uMh-3g-qUP"/>
+                            <constraint firstItem="jNw-u9-Ka2" firstAttribute="top" secondItem="Nia-5I-zmW" secondAttribute="bottom" id="zMq-Og-SOO"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="conditionLabel" destination="OFQ-Kg-ZrZ" id="ete-WO-fUT"/>
                         <outlet property="detailsLabel" destination="VJR-AX-hMX" id="crZ-Np-xrM"/>
                         <outlet property="feelsLikeLabel" destination="hpS-lD-56e" id="00I-Ns-N5g"/>
+                        <outlet property="historyBaseView" destination="jNw-u9-Ka2" id="f8R-iq-0K5"/>
                         <outlet property="humidityLabel" destination="sEy-aN-oxv" id="5MF-vY-VZO"/>
                         <outlet property="locationNameLabel" destination="XZt-R3-yg2" id="XWu-ib-QN9"/>
                         <outlet property="maxLabel" destination="xDm-9E-94v" id="aqV-5T-qmA"/>
                         <outlet property="minLabel" destination="z1a-H5-HEv" id="bNH-nb-P74"/>
                         <outlet property="pressureLabel" destination="9xY-rW-xx4" id="b8s-Dc-NJJ"/>
                         <outlet property="searchBar" destination="sfa-i1-Hin" id="WWw-AC-n8K"/>
+                        <outlet property="searchHistoryTableView" destination="veD-oz-UWn" id="Ueb-EY-IVt"/>
                         <outlet property="tempLabel" destination="CyQ-Ae-egP" id="oKC-Az-cLb"/>
                         <outlet property="visibiltyLabel" destination="h7H-yK-xUw" id="I7V-Pc-Mjm"/>
                         <outlet property="windSpeedLabel" destination="7QA-GR-NEs" id="Dg9-QM-KVh"/>
