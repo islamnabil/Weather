@@ -7,4 +7,5 @@ target 'Weather' do
 
   # Pods for Weather
   pod 'Alamofire'
+  pod 'IQKeyboardManagerSwift', '~> 6.5.9'
 end
